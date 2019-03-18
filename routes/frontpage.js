@@ -3,48 +3,60 @@ const app = new Koa();
 const path = require('path');
 const config = require('config');
 const fs = require('fs');
-const sendFile = require('./workers/sendFile');
-const removeFile = require('./workers/removeFile');
+
 
 exports.get = async function(ctx, next) {
-
   ctx.body = ctx.render('welcome.pug');
   await next();
 };
 
 exports.get_file = async function(ctx, next) {
-  console.log(ctx.request.body);
+  ctx.file = {};
+  ctx.file.method = ctx.request.method;
+  ctx.file.name = ctx.params.filename;
 
-  ctx.body = ctx.render('welcome.pug');
-
+  ctx.params.dir == 'files'? ctx.file.dir = ctx.params.dir : ctx.file.dir = 'def';
+  console.log(ctx.file.dir);
   await next();
+
 };
 
-exports.post = async function(ctx, next) {
-  let fileName = ctx.request.url.slice(1);
+exports.post_file = async function(ctx, next) {
+  ctx.file = {};
+  ctx.file.method = ctx.request.method;
+  ctx.file.name = ctx.params.filename;
+
+  ctx.params.dir == 'files'? ctx.file.dir = ctx.params.dir : ctx.file.dir = 'def';
+
+  await next();
+
+};
+
+exports.put = async function(ctx, next) {
+  ctx.file = {};
+  ctx.file.method = ctx.request.method;
+  ctx.file.name = ctx.params.filename;
+
+  ctx.params.dir == 'files'? ctx.file.dir = ctx.params.dir : ctx.file.dir = 'def';
+
+  await next();
+
+};
+
+exports.get_files_file = async function(ctx, next) {
 
   ctx.file = {};
-  ctx.file.name = fileName;
   ctx.file.method = ctx.request.method;
+  ctx.file.name = ctx.params.filename;
 
-  await fs.writeFile(path.join(config.get('filesRoot'), fileName), ctx.request.body, (err) => {
-    // throws an error, you could also catch it here
-    if (err) console.error(err);
-  });
+  ctx.params.dir == 'files'? ctx.file.dir = ctx.params.dir : ctx.file.dir = 'def';
 
   await next();
 
-
-
-/*  ctx.redirect('/');*/
-
-
-/*  ctx.body = ctx.render('welcome.pug');*/
 };
 
-
-exports.delete = async function(ctx, next) {
+/*exports.delete = async function(ctx, next) {
   console.log(ctx.request.body);
 
   await next();
-};
+};*/
