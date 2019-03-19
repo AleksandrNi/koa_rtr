@@ -20,13 +20,15 @@ require('./handlers/077-koabody').init(app);
 
 
 
+
 router.get('/', require('./routes/frontpage').get);
 router.get('/:filename', require('./routes/frontpage').get_file, require('./routes/workers/mongo').func);
-router.post('/:filename', require('./routes/frontpage').post_file, require('./routes/workers/mongo').func);
+router.post('/upload', require('./routes/frontpage').post_file, require('./routes/workers/mongo').func);
 router.put('/:dir/:filename', require('./routes/frontpage').put, require('./routes/workers/mongo').func);
 router.get('/:dir/:filename', require('./routes/frontpage').get_files_file, require('./routes/workers/mongo').func);
 /*router.delete('/', require('./routes/frontpage').delete, require('./routes/workers/mongo').func);*/
 
 app.use(router.routes());
-
+/*app.use(router.allowedMethods());
+*/
 module.exports = app;

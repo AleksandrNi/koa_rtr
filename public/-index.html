@@ -1,4 +1,43 @@
-window.addEventListener('DOMContentLoaded', function() {
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>File Server</title>
+</head>
+<body>
+
+<form id="POST">
+  <input type="file">
+  <input type="submit" value="Загрузить">
+</form>
+
+
+<form id="GET">
+  <input type="text" name="file" placeholder="filename.ext">
+  <input type="submit" value="Загрузить">
+</form>
+
+<script>
+
+/*  const fileInput = document.querySelector("input[type='file']");
+  // Add your onchange handler
+
+  fileInput.onchange = async e => {
+    const files = e.target.files;
+    const fileToUpload = files[0];
+
+    let data = new FormData();
+    data.append("file", fileToUpload);
+
+    // Send as multipart/form-data
+    // Ensure the URL points to your server
+    const response = await fetch("/upload", {
+      method: "POST",
+      body: data,
+    });
+    const { url } = await response.json();
+
+  };*/
 
   POST.onsubmit = async function(event) {
     event.preventDefault();
@@ -41,4 +80,6 @@ window.addEventListener('DOMContentLoaded', function() {
   };
 
 
-});
+</script>
+</body>
+</html>

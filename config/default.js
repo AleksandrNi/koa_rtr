@@ -9,6 +9,7 @@ module.exports = {
   templatesRoot: path.join(process.cwd(), 'templates'),
   publicRoot: path.join(process.cwd(), 'public'),
   filesRoot: path.join(process.cwd(), 'files'),
+  workersRoot: path.join(process.cwd(), 'routes', 'workers'),
   crypto: {
     hash: {
       length: 128,

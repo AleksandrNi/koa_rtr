@@ -3,6 +3,8 @@ const app = new Koa();
 const path = require('path');
 const config = require('config');
 const fs = require('fs');
+const os = require('os');
+const {uploadFile} = require('./workers/upload');
 
 
 exports.get = async function(ctx, next) {
@@ -11,6 +13,7 @@ exports.get = async function(ctx, next) {
 };
 
 exports.get_file = async function(ctx, next) {
+
   ctx.file = {};
   ctx.file.method = ctx.request.method;
   ctx.file.name = ctx.params.filename;
@@ -22,11 +25,15 @@ exports.get_file = async function(ctx, next) {
 };
 
 exports.post_file = async function(ctx, next) {
-  ctx.file = {};
-  ctx.file.method = ctx.request.method;
-  ctx.file.name = ctx.params.filename;
 
-  ctx.params.dir == 'files'? ctx.file.dir = ctx.params.dir : ctx.file.dir = 'def';
+const file = ctx.request.files.file;
+const filePath = file.path;
+
+  ctx.file = {};
+  ctx.file.method = ctx.request.method; // POST
+  ctx.file.name = file.name; // readme.txt
+  ctx.file.path = file.path; //full path
+  ctx.file.type = file.type; //mime type
 
   await next();
 
